@@ -1,0 +1,20 @@
+#####################################################################################
+#                                                                                   #
+#                       Benchmark config -- Configuration file                      #
+#                                                                                   #
+#                      Guillaume Bogopolsky, CERFACS, 28.06.2021                    #
+#                                                                                   #
+#####################################################################################
+
+sizes: [101, 201, 401, 801, 2001, 4001, 5001, 5501]
+nits: 20
+
+# Networks to test
+networks:
+  UNet5-100k:
+    resume: '/scratch/cfd/PlasmaDL/networks/train/101x101/models/UNet5/rf200/model_best.pth'
+    arch:
+      db_file: 'unets_ks3_rf200.yml'
+      name: 'UNet5'
+      args:
+        input_res: 101

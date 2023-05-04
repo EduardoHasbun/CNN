@@ -1,0 +1,59 @@
+########################################################################################################################
+#                                                                                                                      #
+#                                            cfdsolver -- Configuration file                                           #
+#                                                                                                                      #
+#                                           Lionel Cheng, CERFACS, 27.03.2020                                          #
+#                                                                                                                      #
+########################################################################################################################
+
+# Contains the parameters for the model (training, etc.)
+
+# To import the parameters, use
+#     import yaml
+#     with open('config.yml', 'r') as yaml_stream:
+#         config = yaml.safe_load(yaml_stream)
+
+casename: 'runs/kraken/dh_streamers/'
+description: 'Different runs of dh_streamers for different resolutions and with/without photoionization'
+mode: 'seq'
+params/photoionization: ['no', 'no', 'three', 'three']
+params/n_back: [1.0e+14, 1.0e+14, 1.0e+9, 1.0e+9]
+mesh/nnx: [401, 801, 401, 801]
+mesh/nny: [101, 201, 101, 201]
+
+base:
+  params:
+    nit: 8000
+    dt: 5.0e-13
+    geom: 'xr'
+    photoionization: 'three'
+    x0: 2.0e-3
+    n_back: 1.0e+9
+    n_gauss: 1.0e+19
+
+  mesh:
+    xmin: 0
+    ymin: 0
+    xmax: 0.004
+    ymax: 0.001
+    nnx: 401
+    nny: 101
+
+  transport:
+    chemistry: 'morrow'
+
+  BC: 'outlet_axi'
+
+  poisson:
+    backE: 4.8e+6
+    type: 'lin_system'
+
+  output:
+    folder: 'data/'
+    save: 'iteration'
+    verbose: True
+    files: 'fig'
+    period: 400
+    dl_save: 'no'
+
+  input: 'none'

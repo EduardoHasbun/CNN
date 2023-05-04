@@ -1,0 +1,146 @@
+# # Comparison of globals from streamer
+# fig_dir: 'network_vs_ls/1e14_back'
+
+# solut_paths: ['runs/kraken/network_vs_ls_4/1e14_back/case_1/data',
+#               'runs/kraken/network_vs_ls_4/1e14_back/case_3/data']
+# solut_labels: ['Neural network', 'Linear system']
+
+# mesh:
+#   xmin: 0
+#   ymin: 0
+#   xmax: 0.004
+#   ymax: 0.001
+#   nnx: 401
+#   nny: 101
+
+# photo: 'no'
+# combined: 'yes'
+# instants: [3, 5, 7]
+
+# ne_ticks: [1.0e+17, 1.0e+18, 1.0e+19, 1.0e+20, 1.0e+21]
+# Emax: 1.8e+7
+# Sph_ticks: [1.0e+23, 1.0e+26, 1.0e+29]
+
+
+# # Comparison of globals from streamer
+# fig_dir: 'photo_two_vs_three/'
+
+# solut_paths: ['runs/kraken/linsystem/photo/case_1/data',
+#               'runs/kraken/linsystem/photo/case_2/data']
+# solut_labels: ['Neural network', 'Linear system']
+
+# photo: 'yes'
+# combined: 'yes'
+# instants: [2, 4, 6]
+
+# mesh:
+#   xmin: 0
+#   ymin: 0
+#   xmax: 0.004
+#   ymax: 0.001
+#   nnx: 401
+#   nny: 101
+
+
+# ne_ticks: [1.0e+17, 1.0e+18, 1.0e+19, 1.0e+20, 1.0e+21]
+# Emax: 1.4e+7
+# Sph_ticks: [1.0e+23, 1.0e+26, 1.0e+28]
+
+# # Comparison of globals from streamer
+# fig_dir: 'photo_nn_vs_ls/'
+
+# solut_paths: ['runs/kraken/photo/nn_two/data',
+#               'runs/kraken/photo/ls_two/data']
+# solut_labels: ['Neural network', 'Linear system']
+
+# photo: 'yes'
+# combined: 'yes'
+# instants: [5, 10, 15]
+
+# mesh:
+#   xmin: 0
+#   ymin: 0
+#   xmax: 0.004
+#   ymax: 0.001
+#   nnx: 401
+#   nny: 101
+
+
+# ne_ticks: [1.0e+17, 1.0e+18, 1.0e+19, 1.0e+20, 1.0e+21]
+# Emax: 1.4e+7
+# Sph_ticks: [1.0e+23, 1.0e+26, 1.0e+29]
+
+# # Comparison of globals from streamer
+# fig_dir: 'photo_nn_vs_fullnn/'
+
+# solut_paths: ['runs/kraken/photo/nn_two/data',
+#               'runs/kraken/photo/nn_two_nn_poisson/data']
+# solut_labels: ['2 NN', '3 NN']
+
+# photo: 'yes'
+# combined: 'yes'
+# instants: [5, 10, 14]
+
+# mesh:
+#   xmin: 0
+#   ymin: 0
+#   xmax: 0.004
+#   ymax: 0.001
+#   nnx: 401
+#   nny: 101
+
+
+# ne_ticks: [1.0e+17, 1.0e+18, 1.0e+19, 1.0e+20, 1.0e+21]
+# Emax: 1.4e+7
+# Sph_ticks: [1.0e+23, 1.0e+26, 1.0e+29]
+
+# Comparison of globals from streamer
+fig_dir: 'photo_ls_vs_fullnn/'
+
+solut_paths: ['runs/back1e11_peak1e19_clipping1e20/case_5/data',
+              'runs/back1e11_peak1e19_clipping1e20/case_1/data']
+solut_labels: ['3 NN', 'Linear system']
+
+photo: 'yes'
+combined: 'yes'
+instants: [8, 11, 14]
+
+mesh:
+  xmin: 0
+  ymin: 0
+  xmax: 0.004
+  ymax: 0.001
+  nnx: 401
+  nny: 101
+
+
+ne_ticks: [1.0e+17, 1.0e+18, 1.0e+19, 1.0e+20, 1.0e+21]
+Emax: 2.1e+7
+Sph_ticks: [1.0e+22, 1.0e+25, 1.0e+28]
+
+
+# # Comparison of globals from streamer
+# fig_dir: 'photo_ls_vs_fullnn_pos/'
+
+# solut_paths: ['runs/back1e11_peak1e19_clipping1e20/case_6/data',
+#               'runs/back1e11_peak1e19_clipping1e20/case_1/data']
+# solut_labels: ['3 NN', 'Linear system']
+
+# photo: 'yes'
+# combined: 'yes'
+# instants: [8, 11, 14]
+
+# mesh:
+#   xmin: 0
+#   ymin: 0
+#   xmax: 0.004
+#   ymax: 0.001
+#   nnx: 401
+#   nny: 101
+
+
+# ne_ticks: [1.0e+17, 1.0e+18, 1.0e+19, 1.0e+20, 1.0e+21]
+# Emax: 2.0e+7
+# Sph_ticks: [1.0e+22, 1.0e+25, 1.0e+28]
+
+

@@ -1,0 +1,69 @@
+########################################################################################################################
+#                                                                                                                      #
+#                                           PlasmaNet -- Configuration file                                            #
+#                                                                                                                      #
+#                                      Guillaume Bogopolsky, CERFACS, 11.03.2020                                       #
+#                                                                                                                      #
+########################################################################################################################
+
+# Contains the parameters for the model (training, etc.)
+
+# To import the parameters, use
+#     import yaml
+#     with open('config.yml', 'r') as yaml_stream:
+#         config = yaml.safe_load(yaml_stream)
+
+# The train routine will automatically load the required `type` of each section with the given `args` by using the
+# `config.init_obj` method.
+
+name: 'figures/debug'                               # Experience name
+n_gpu: 1                                    # Number of GPUs to use
+
+# files: ['unets_ks3_rf50.yml', 'unets_ks3_rf75.yml', 'unets_ks3_rf100.yml', 'unets_ks3_rf150.yml',
+#         'unets_ks3_rf200.yml', 'unets_ks3_rf300.yml', 'unets_ks3_rf400.yml', 'unets_ks5_rf100.yml',
+#         'unets_ks5_rf150.yml', 'unets_ks5_rf200.yml']
+
+# networks: ['UNet3', 'UNet4', 'UNet5']
+
+files: ['unets_ks3_rf200.yml']
+networks: ['UNet5']
+
+arch:
+    db_file: 'unets_ks3_rf200.yml'
+    name: 'UNet3'
+    args:
+        input_res: 201
+
+globals:                                    # Domain sizes and others, used to compute global attributes
+    nnx: 101
+    nny: 101
+    xmin: 0.0
+    xmax: 1.0e-2
+    ymin: 0.0
+    ymax: 1.0e-2
+    coord: 'cart'
+    verbosity: 2
+
+data_loader:
+    type: 'PoissonDataLoader'
+    data_channels: 1
+    pipe_config: True
+    args:
+        data_dir: '/scratch/cfd/PlasmaDL/datasets/train/101x101/random_8'
+        batch_size: 64
+        shuffle: True
+        validation_split: 0.2               # if float, fraction of the full dataset, if int, length of validation portion
+        num_workers: 4
+        normalize: 'analytical'                   # max, physical or no for normalization types
+        alpha: 0.1
+        scaling_factor: 1.0e+6
+
+loss:
+    type: 'ComposedLoss'
+    pipe_config: True                       # Object initialization require config as first argument
+    args:
+        loss_list:                          # List of the losses to compose if ComposedLoss is used
+            - DirichletBoundaryLoss
+            - LaplacianLoss
+        bound_weight: 1.                    # Weighting of the loss on the boundaries (float)
+        lapl_weight: 0.1                    # Weighting of the loss on the Laplacian (float)

@@ -1,0 +1,18 @@
+./plasma_env/Scripts/activate
+$Env:ARCHS_DIR = 'C:/Codigos/plasmanet/NNet/archs'
+$Env:POISSON_DIR = 'C:/Codigos/plasmanet/PoissonSolver/linsystem'
+
+
+
+
+Fix:
+
+1.- Agregar a network.py (path/to/Plasmanet/poisssonsolver/network.py) linea 90 a argumentos de torchload: map_location=torch.device('cpu')
+
+2.- Agregar a network.py (path/to/Plasmanet/poisssonsolver/network.py): import pathlib
+                                                                        temp = pathlib.PosixPath
+                                                                        pathlib.PosixPath = pathlib.WindowsPath
+
+3.- Agregar a plasma.py (path/to/PlasmaNet/cfdsolver/euler/plasma.py) linea 435: os.path.join(sel.case_dir,'globals')
+
+3.- Agregar a plasma.py (path/to/PlasmaNet/cfdsolver/euler/plasma.py): import os

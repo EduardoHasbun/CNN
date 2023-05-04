@@ -1,0 +1,4 @@
+gpu_timings.csv
+*.pdf
+.ipynb_checkpoints/
+data/

@@ -1,0 +1,26 @@
+# Common
+.DS_Store
+.idea
+__pycache__/
+*.egg-info/
+*.pyc
+.pytest_cache/
+*.png
+*.prof
+*.lprof
+*.out
+*.vscode/
+*.log
+
+# Storage directories
+models
+outputs
+/datasets
+figures
+runs
+cases*
+
+# Neural network
+train/
+eval/
+train_cyl/
