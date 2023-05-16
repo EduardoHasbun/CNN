@@ -19,16 +19,16 @@ params:
   n_periods: 2.0
   geom: 'xy'
   dt: 1.0e-10
-  nt_oscill: 5000
+  nt_oscill: 10
 
 init:
   n_back: 1.0e+16
   n_pert: 1.0e+11
-  func: 'gaussian'
-  args : [0.5e-2, 0.5e-2, 1.0e-3, 1.0e-3]
-  # func: 'two_gaussians'
-  # args: [0.4e-2, 0.5e-2, 1.0e-3, 1.0e-3, 
-  #             0.6e-2, 0.5e-2, 1.0e-3, 1.0e-3]
+  # func: 'gaussian'
+  # args : [0.5e-2, 0.5e-2, 1.0e-3, 1.0e-3]
+  func: 'two_gaussians'
+  args: [0.4e-2, 0.5e-2, 1.0e-3, 1.0e-3, 
+              0.6e-2, 0.5e-2, 1.0e-3, 1.0e-3]
   # init_func: 'sin2D'
   # init_args: [1.0e-2, 1.0e-2, 2.0, 2.0]
   # init_func: ['random', [16, 3.0e-3]]
@@ -76,7 +76,7 @@ network:
   # resume: '/scratch/cfd/PlasmaDL/networks/train/RF_study/Unet/5_scales/k_3/RF_200/models/random_8'
   
   arch:
-    db_file: 'unets_ks3_rf400.yml'
+    db_file: 'unets_ks3_rf200.yml'
     # db_file: 'unets_ks3_rf200.yml'
     name: 'UNet5'
     args:

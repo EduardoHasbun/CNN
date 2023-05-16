@@ -34,7 +34,6 @@ from ..nnet.data.data_loaders import ratio_potrhs
 from ..nnet.utils import MetricTracker
 from ..nnet.trainer.trainer import plot_batch, plot_batch_Efield
 from .base import BasePoisson
-from .linsystem import cartesian_matrix, impose_dirichlet
 
 class PoissonNetwork(BasePoisson):
     """ Class for network solver of Poisson problem
@@ -108,38 +107,6 @@ class PoissonNetwork(BasePoisson):
         else:
             self.interp_kind = 'bilinear'
 
-        # Hybrid with iteration from linear system solver
-        # Hybrid from E. Ajuria
-        if "iterative_refine" in cfg['eval']:
-            self.iterative_refine = True
-            self.refine_method = cfg['eval']['iterative_refine']
-            self.refine_its = cfg['eval']['refine_its']
-
-            zeros_x = np.zeros_like(self.x)
-            zeros_y = np.zeros_like(self.y)
-
-            # Setup the bcs and matrix
-            self.bcs = {'left': 'dirichlet', 'right': 'dirichlet', 'bottom': 'dirichlet', 'top': 'dirichlet'}
-            self.mat = cartesian_matrix(self.dx, self.dy, self.nnx, self.nny, 1.0, self.bcs)
-            self.bc = {'left': zeros_y, 'right': zeros_y, 'bottom': zeros_x, 'top': zeros_x}
-
-
-            # Iterative decomposition
-            if self.refine_method == 'gauss_seidel':
-                self.lstar =  tril(self.mat)
-                self.triu = self.mat - self.lstar
-                self.lstar_inv = inv(self.lstar)
-                self.lstar_invU = self.lstar_inv * self.triu
-            elif self.refine_method == 'jacobi':
-                self.P = csr_matrix(self.mat.shape)
-                self.P.setdiag(self.mat.diagonal())
-                self.Pinv = csr_matrix(self.mat.shape)
-                self.Pinv.setdiag(np.where(self.P.diagonal() != 0.0, 1 / self.P.diagonal(), 0.0))
-                self.N = self.P - self.mat
-                self.PinvN = self.Pinv * self.N
-
-        else:
-            self.iterative_refine = False
 
 
     def case_config(self, cfg: dict):
@@ -204,21 +171,6 @@ class PoissonNetwork(BasePoisson):
             tmp = perf_counter() - tmp
             comm_timer += tmp
             total_timer = perf_counter() - total_timer
-
-        # Iterative refine
-        if self.iterative_refine:
-            impose_dirichlet(self.physical_rhs, self.bc)
-            for _ in range(self.refine_its):
-                if self.refine_method == 'gauss_seidel':
-                    self.potential = (
-                        - self.lstar_inv.dot(self.physical_rhs.reshape(-1)) - self.lstar_invU.dot(self.potential.reshape(-1))
-                    ).reshape(self.nny, self.nnx)
-                    print('Gauss it')
-                else:
-                    self.potential = (
-                        self.PinvN.dot(self.potential.reshape(-1)) - self.Pinv.dot(self.physical_rhs.reshape(-1))
-                    ).reshape(self.nny, self.nnx)
-                    print('Jacobi it')
 
         # Print benchmarks
         if self.benchmark:

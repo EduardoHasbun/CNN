@@ -31,7 +31,7 @@ globals:                                    # Domain sizes and others, used to c
     verbosity: 2                            # Output verbosity level
 
 arch:
-    db_file: 'unets_ks3_rf400.yml'          # Database file
+    db_file: 'unets_ks3_rf200.yml'          # Database file
     name: 'UNet5'                           # Name of the network in the database file
     args:
         input_res: 101                      # Required argument to define the input res of the network
@@ -41,7 +41,7 @@ data_loader:
     data_channels: 1                        # Number of data channels
     pipe_config: True                       # Does the dataloader requires the input file?
     args:
-        data_dir: 'C:/Codigos/CNN/output/101x101/random_4'   # Dataset path
+        data_dir: 'C:/Codigos/CNN/output/101x101/random_8'   # Dataset path
         batch_size: 64
         shuffle: True                       # Do we randomly reorder the dataset?
         validation_split: 0.2               # if float, fraction of the full dataset, if int, length of validation portion
@@ -95,7 +95,7 @@ lr_scheduler:
         verbose: False
 
 trainer:
-    epochs: 500                             # Number of epochs
+    epochs: 30                              # Number of epochs
     save_dir: 'debug/'                      # Output directory
     save_period: 20                         # Output period
     plot_period: 20                         # Period to send plots to TensorBoard

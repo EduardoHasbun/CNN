@@ -6,3 +6,5 @@
 #SBATCH --partition=visu
 
 python rhs_hills.py kraken 64 8 5 5
+
+python3 rhs_random.py -c train.yml -nr 16 -nn 101

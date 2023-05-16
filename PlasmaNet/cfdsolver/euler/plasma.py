@@ -21,8 +21,6 @@ from scipy import interpolate
 
 from .euler import Euler
 import PlasmaNet.common.profiles as pf
-from ...poissonsolver.poisson import DatasetPoisson
-from ...poissonsolver.analytical import PoissonAnalytical
 from ...poissonsolver.network import PoissonNetwork
 from ...common.plot import plot_ax_scalar, plot_ax_scalar_1D, plot_ax_vector_arrow
 from ...common.utils import create_dir, save_obj
@@ -41,32 +39,7 @@ class PlasmaEuler(Euler):
         for key, value in config['mesh'].items():
             config['poisson'][key] = value
 
-        # # Initialize the poisson object depending on what is specified
-        # if self.poisson_type == 'lin_system' or self.poisson_type == 'hybrid':
-        #     config['poisson']['geom'] = self.geom
-        #     config['poisson']['bcs'] = 'dirichlet'
-
-        #     # Boundary conditions
-        #     zeros_x = np.zeros_like(self.x)
-        #     zeros_y = np.zeros_like(self.y)
-        #     self.pot_bcs = {'left': zeros_y, 'right': zeros_y,
-        #                     'bottom': zeros_x, 'top': zeros_x}
-
-        #     if self.poisson_type == 'hybrid':
-        #         self.hybrid_it = config['poisson']['hybrid_it']
-        #         self.poisson_ls = DatasetPoisson(config['poisson'])
-        #     else:
-        #         self.poisson = DatasetPoisson(config['poisson'])
-
-        # # Analytical solution for 2D cartesian rectangular geometry
-        # elif self.poisson_type == 'analytical':
-        #     config['poisson']['nmax_rhs'] = config['poisson']['nmax_fourier']
-        #     config['poisson']['mmax_rhs'] = config['poisson']['nmax_fourier']
-        #     config['poisson']['nmax_d'] = 0
-        #     self.poisson = PoissonAnalytical(config['poisson'])
-
-        # The if loop has been changed from elif to if for 'hybrid' case
-        if self.poisson_type == 'network' or self.poisson_type == 'hybrid':
+        if self.poisson_type == 'network':
             config['poisson']['geom'] = self.geom
             config['network']['eval'] = config['poisson']
             config['network']['casename'] = config['casename']
@@ -96,8 +69,8 @@ class PlasmaEuler(Euler):
 
         self.U[0] = self.m_e * n_electron
 
-        self.omega_p = np.sqrt(self.n_back * co.e**2 / self.m_e / co.epsilon_0)
-        self.T_p = 2 * np.pi / self.omega_p
+        self.omega_p = np.sqrt(self.n_back * co.e**2 / self.m_e / co.epsilon_0)  
+        self.T_p = 2 * np.pi / self.omega_p                      
         self.nt_oscill = config['params']['nt_oscill']
         self.dt = 2 * np.pi / self.omega_p / self.nt_oscill
 
@@ -197,18 +170,9 @@ class PlasmaEuler(Euler):
             f = interpolate.interp2d(self.x, self.y, rhs_field, kind=self.interp_kind)
             rhs_field = f(self.x_intrp, self.y_intrp)
 
-        # if self.poisson_type == 'lin_system':
-        #     self.poisson.solve(rhs_field, self.pot_bcs)
-        # elif self.poisson_type == 'analytical':
-        #     self.poisson.compute_sol(rhs_field)
         self.poisson_type == 'network'
         self.poisson.solve(rhs_field)
-        # elif self.poisson_type == 'hybrid':
-        #     if it % self.hybrid_it == 0:
-        #         self.poisson_ls.solve(rhs_field, self.pot_bcs)
-        #         self.poisson.potential = self.poisson_ls.potential
-        #     else:
-        #         self.poisson.solve(rhs_field)
+
 
         # Interpolation of potential
         if self.interpol:

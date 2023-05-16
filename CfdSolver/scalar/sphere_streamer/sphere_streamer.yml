@@ -36,7 +36,7 @@ poisson:
   electrode_b: 1.0e-3
   electrode_V0: 6.5e+3
   # type: 'network'
-  type: 'lin_system'
+  type: 'network'
   nmax_fourier: 10
 
 mesh:
@@ -77,14 +77,14 @@ network:
 
   # resume: '/scratch/cfd/ajuria/Plasma/plasmanet_new/plasmanet/NNet/train_cyl/rectangle_debug/models/UNet5_rf200/basic_train_pad/model_best.pth'
   # resume: '/scratch/cfd/PlasmaDL/networks/train/RF_study/Unet/5_scales/k_3/RF_200/models/random_8'
-  resume: '/scratch/cfd/cheng/DL/plasmanet/NNet/train_cyl/study/models/UNet5_ksrect/run_1/model_best.pth'
+  resume: 'C:/Codigos/CNN/NNet/debug/models/config_4/random_8/model_best.pth'
 
   arch:
-    db_file: 'unets_rect.yml'
+    db_file: 'unets_ks3_rf400.yml'
     # db_file: 'unets_ks3_rf200.yml'
-    name: 'UNet5-100k'
+    name: 'UNet5'
     args:
-        input_res: [101, 401]
+        input_res: [101, 101]
         padding_mode: 'custom'
 
   data_loader:

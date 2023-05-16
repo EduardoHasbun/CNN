@@ -21,7 +21,6 @@ import seaborn as sns
 from pathlib import Path
 
 # From PlasmaNet
-from PlasmaNet.poissonsolver.analytical import dirichlet_mode
 from PlasmaNet.poissonsolver.network import PoissonNetwork
 from PlasmaNet.common.operators_numpy import grad
 
@@ -81,30 +80,7 @@ if __name__ == '__main__':
         poisson.case_config(cfg['network']['eval'])
 
         # interior rhs for exact solution it is the mode specified by nmax and mmax above
-        for (mode_n, mode_m) in modes:
-            physical_rhs = (ni0 * dirichlet_mode(poisson.X, poisson.Lx, mode_n) * 
-                    dirichlet_mode(poisson.Y, poisson.Ly, mode_m)) * co.e / co.epsilon_0
-            potential_th = physical_rhs / ((mode_n * np.pi / poisson.Lx)**2 + (mode_m * np.pi / poisson.Ly)**2)
-            E_field_th = - grad(potential_th, poisson.dx, poisson.dy, nnx, nny)
-            poisson.solve(physical_rhs)
-            # if i_nnx == len(nnxs) - 1:
-            #     poisson.plot_1D2D(fig_dir / f'sol_{nnx}_{mode_n}_{mode_m}')
-            for key in errors:
-                errors[key][f'({mode_n:d}, {mode_m:d})']['potential'][i_nnx] = getattr(poisson, f'{key}error_pot')(potential_th)
-                errors[key][f'({mode_n:d}, {mode_m:d})']['E_field'][i_nnx] = getattr(poisson, f'{key}error_E')(E_field_th)
 
-            poisson.potential = potential_th
-            
-            # Errors in percentage
-            print(f'\n nnx = {nnx:d} - (n, m) = ({mode_n:d}, {mode_m:d})')
-            print(f"L1_pot = {errors['L1'][f'({mode_n:d}, {mode_m:d})']['potential'][i_nnx] / poisson.L1_pot():.2e}")
-            print(f"L2_pot = {errors['L2'][f'({mode_n:d}, {mode_m:d})']['potential'][i_nnx] / poisson.L2_pot():.2e}")
-            print(f"Linf_pot = {errors['Linf'][f'({mode_n:d}, {mode_m:d})']['potential'][i_nnx] / poisson.Linf_pot():.2e}")
-            print(f"L1_E = {errors['L1'][f'({mode_n:d}, {mode_m:d})']['E_field'][i_nnx] / poisson.L1_E():.2e}")
-            print(f"L2_E = {errors['L2'][f'({mode_n:d}, {mode_m:d})']['E_field'][i_nnx] / poisson.L2_E():.2e}")
-            print(f"Linf_E = {errors['Linf'][f'({mode_n:d}, {mode_m:d})']['E_field'][i_nnx] / poisson.Linf_E():.2e}")
-            
-        # poisson.plot_1D2D(fig_dir / f'th_{nnx}')
     
     # Creation of L1, L2 and Linf error figs
     for error_kind in errors:
