@@ -16,7 +16,7 @@
 device: 'kraken'
 n_entries: 10000
 n_procs: 30
-output_dir: 'C:/Codigos/CNN/output/'
+output_dir: 'C:/Users/Eduardo Hasbun/Desktop/Codigos/CNN/output/'
 
 poisson:
   geom: 'cartesian'
